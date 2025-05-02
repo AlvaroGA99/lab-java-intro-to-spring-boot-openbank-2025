@@ -1,5 +1,6 @@
 package com.ironhack.lab_java_intro_springboot.controllers;
 
+import com.ironhack.lab_java_intro_springboot.models.Employee;
 import com.ironhack.lab_java_intro_springboot.models.Patient;
 import com.ironhack.lab_java_intro_springboot.repositories.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -27,6 +29,24 @@ public class PatientController {
     @ResponseStatus(HttpStatus.OK)
     public Patient getPatientById(@PathVariable Long id) {
         return patientRepository.findById(id).orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found"));
+    }
+
+    @GetMapping(params = {"minBirthYear", "maxBirthYear"})
+    @ResponseStatus(HttpStatus.OK)
+    public List<Patient> getPatientsByBirthYearRange(@RequestParam Date minBirthYear, @RequestParam Date maxBirthYear) {
+        return patientRepository.findByDateOfBirthBetween(minBirthYear, maxBirthYear);
+    }
+
+    @GetMapping(params = "department")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Patient> getPatientsByDoctorDeparment(@RequestParam String department) {
+        return patientRepository.findByDoctorDepartment(department);
+    }
+
+    @GetMapping("/offstatus")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Patient> getPatientsByDoctorStatus() {
+        return patientRepository.findByOffDoctorStatus();
     }
 
 }

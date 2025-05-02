@@ -1,5 +1,6 @@
 package com.ironhack.lab_java_intro_springboot.controllers;
 
+import com.ironhack.lab_java_intro_springboot.EmployeeStatus;
 import com.ironhack.lab_java_intro_springboot.models.Employee;
 import com.ironhack.lab_java_intro_springboot.models.Patient;
 import com.ironhack.lab_java_intro_springboot.repositories.EmployeeRepository;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -30,15 +32,17 @@ public class EmployeeController {
         return employeeRepository.findById(id).orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found"));
     }
 
-    @GetMapping("/?status={status}")
+    @GetMapping(params = "status")
     @ResponseStatus(HttpStatus.OK)
-    public List<Employee> getPatientsByStatus(@PathVariable String status) {
+    public List<Employee> getPatientsByStatus(@RequestParam EmployeeStatus status) {
         return employeeRepository.findByStatus(status);
     }
 
-    @GetMapping("/?department={department}")
+    @GetMapping(params = "department")
     @ResponseStatus(HttpStatus.OK)
-    public List<Employee> getPatientsByDepartment(@PathVariable String department) {
+    public List<Employee> getPatientsByDepartment(@RequestParam String department) {
         return employeeRepository.findByDepartment(department);
     }
+
+
 }

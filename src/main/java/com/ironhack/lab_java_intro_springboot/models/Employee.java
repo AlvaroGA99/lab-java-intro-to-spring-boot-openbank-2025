@@ -1,5 +1,6 @@
 package com.ironhack.lab_java_intro_springboot.models;
 
+import com.ironhack.lab_java_intro_springboot.EmployeeStatus;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,9 +12,11 @@ public class Employee {
     private Long employeeId;
     private String department;
     private String name;
-    private String status;
 
-    public Employee(Long employeeId, String department, String name, String status) {
+    @Enumerated(EnumType.STRING)
+    private EmployeeStatus status;
+
+    public Employee(Long employeeId, String department, String name, EmployeeStatus status) {
         this.employeeId = employeeId;
         this.department = department;
         this.name = name;
@@ -47,11 +50,11 @@ public class Employee {
         this.name = name;
     }
 
-    public String getStatus() {
+    public EmployeeStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(EmployeeStatus status) {
         this.status = status;
     }
 

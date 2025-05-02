@@ -2,6 +2,8 @@ package com.ironhack.lab_java_intro_springboot.models;
 
 import jakarta.persistence.*;
 
+import java.sql.Date;
+
 @Entity
 @Table(name = "patients")
 public class Patient {
@@ -13,13 +15,13 @@ public class Patient {
     private String name;
 
     @Column(name = "date_of_birth")
-    private String dateOfBirth;
+    private Date dateOfBirth;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee addmittedBy;
 
-    public Patient(Long patientId, String name, String dateOfBirth, Employee addmittedBy) {
+    public Patient(Long patientId, String name, Date dateOfBirth, Employee addmittedBy) {
         this.patientId = patientId;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
@@ -45,11 +47,11 @@ public class Patient {
         this.name = name;
     }
 
-    public String getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
